@@ -77,8 +77,8 @@
 			</div>
 		</section>
 		<script>
-			let datas2 = <?= json_encode($posts2,JSON_UNESCAPED_UNICODE); ?>
+			let datas = <?= json_encode($posts,JSON_UNESCAPED_UNICODE); ?>
 		</script>
 		<script>
-			let datas = <?= json_encode($posts,JSON_UNESCAPED_UNICODE); ?>
+			let datas2 = <?= json_encode($posts2,JSON_UNESCAPED_UNICODE); ?>
 		</script>
