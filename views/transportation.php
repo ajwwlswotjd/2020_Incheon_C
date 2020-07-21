@@ -73,23 +73,7 @@
 				</select>
 			</div>
 			<div class="transportation-list row">
-				<!-- <div class="card col-4">
-					<div class="card-body">
-						<h5 class="card-title">고속버스 1번</h5>
-						<p class="card-text">
-							먼 이동기간동안 당신의 여행 파트너가 되어줄 고속 버스입니다.
-						</p>
-					</div>
-					<ul class="list-group list-group-flush">
-						<li class="list-group-item">간격 : 30분</li>
-						<li class="list-group-item">
-							운행 시간대 : 06:00 ~ 22:00
-						</li>
-						<li class="list-group-item">쉬는날 : 일요일</li>
-						<li class="list-group-item">운임 : 12000</li>
-						<li class="list-group-item">좌석 수 : 40</li>
-					</ul>
-				</div> -->
+				
 			</div>
 		</section>
 		<script>
