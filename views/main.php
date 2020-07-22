@@ -56,3 +56,10 @@
 				
 			</div>
 		</section>
+
+		<script>
+			let data1 = <?= json_encode($data1,JSON_UNESCAPED_UNICODE); ?>
+		</script>
+		<script>
+			let data2 = <?= json_encode($data2,JSON_UNESCAPED_UNICODE); ?>
+		</script>

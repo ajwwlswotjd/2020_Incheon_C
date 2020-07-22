@@ -7,7 +7,7 @@
 				<div class="input-group-prepend">
 					<span class="input-group-text">행사장 이름</span>
 				</div>
-				<input type="text" class="form-control" id="reservation_name">
+				<input type="text" class="form-control" id="reservation_name" required>
 			</div>
 			<div class="input-group mt-3">
 				<div class="custom-file">
@@ -15,11 +15,11 @@
 				</div>
 				<div class="input-group mt-3">
 					<label for="reservation_since">시작일</label>
-					<input onkeydown="return false;" type="text" class="form-control reservation_date" id="reservation_since" autocomplete="off">
+					<input onkeydown="return false;" type="text" class="form-control reservation_date" id="reservation_since" autocomplete="off" required>
 				</div>
 				<div class="input-group mt-3">
 					<label for="reservation_until">종료일</label>
-					<input onkeydown="return false;" type="text" class="form-control reservation_date" id="reservation_until" autocomplete="off">
+					<input onkeydown="return false;" type="text" class="form-control reservation_date" id="reservation_until" autocomplete="off" required>
 				</div>
 				<button type="submit" class="mt-3 btn btn-primary">예약</button>
 			</div>

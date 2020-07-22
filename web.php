@@ -15,3 +15,4 @@ Route::post("user/duplicate","UserController@duplicate");
 Route::post("user/join","UserController@join");
 Route::post("user/login","UserController@login");
 Route::post("trans/resert/insert","MainController@trans_insert");
+Route::post("reservation/insert","MainController@reserve");

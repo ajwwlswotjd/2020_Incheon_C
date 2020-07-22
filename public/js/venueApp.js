@@ -10,25 +10,25 @@ window.addEventListener("load",()=>{
 
 	let events = json2;
 	json.places.forEach(place=>{ 
-		let div = temp(place); 
-		let eventList = events.reservations.filter(x=> x.placement === place.id);
+		let div = temp(place);
 		document.querySelector(".place-list").appendChild(div); 
-		div.addEventListener("click",()=>{
-
+		let eventList = events.reservations.filter(x=> x.placement == place.id);
+		$(div).on("click",()=>{
+			$(reservation_placement).val($(div).data("id"));
 			$("#reservation_popup").dialog({width : 300,height : 400});
-					$(".reservation_date").datepicker("destroy"); // 이걸 안해주면 닫았다가 킬때 요일정보가 업데이튿 되지 않는다.
-					$(".reservation_date").datepicker({
-						dateFormat : 'yy-mm-dd',
-						beforeShowDay : function(date){
-							let day = date.getDay();
-							let yoil = place.rest.find(x=> x == day) == undefined;
-							let between = false;
-							eventList.forEach(x=>{
-								if(new Date(x.since) <= new Date(date) && new Date(x.until) >= new Date(date)) between = true;
-							});
-							return [yoil && !between];
-						}
+			$(".reservation_date").datepicker("destroy"); // 이걸 안해주면 닫았다가 킬때 요일정보가 업데이튿 되지 않는다.
+			$(".reservation_date").datepicker({
+				dateFormat : 'yy-mm-dd',
+				beforeShowDay : function(date){
+					let day = date.getDay();
+					let yoil = place.rest.find(x=> x == day) == undefined;
+					let between = false;
+					eventList.forEach(x=>{
+						if(new Date(x.since).toMyString() <= new Date(date).toMyString() && new Date(x.until).toMyString() >= new Date(date).toMyString()) between = true;
 					});
+					return [yoil && !between];
+				}
+			});
 
 					document.querySelectorAll(".reservation_date")[0].onchange = (e)=>{
 						$(".reservation_date").datepicker("destroy");
@@ -39,7 +39,7 @@ window.addEventListener("load",()=>{
 								let yoil = place.rest.find(x=> x == day) === undefined;
 								let between = false;
 								eventList.forEach(x=>{
-									if(new Date(x.since) <= new Date(date) && new Date(x.until) >= new Date(date)) between = true;
+									if(new Date(x.since).toMyString() <= new Date(date).toMyString() && new Date(x.until).toMyString() >= new Date(date).toMyString()) between = true;
 								});
 								return [yoil && !between];
 							}
@@ -53,7 +53,7 @@ window.addEventListener("load",()=>{
 								let yoil = place.rest.find(x=> x == day) === undefined;
 								let between = false;
 								eventList.forEach(x=>{
-									if(new Date(x.since) <= new Date(date) && new Date(x.until) >= new Date(date)) between = true;
+									if(new Date(x.since).toMyString() <= new Date(date).toMyString() && new Date(x.until).toMyString() >= new Date(date).toMyString()) between = true;
 								});
 								return [yoil && !between];
 							}
@@ -70,7 +70,7 @@ window.addEventListener("load",()=>{
 								let yoil = place.rest.find(x=> x == day) === undefined;
 								let between = false;
 								eventList.forEach(x=>{
-									if(new Date(x.since) <= new Date(date) && new Date(x.until) >= new Date(date)) between = true;
+									if(new Date(x.since).toMyString() <= new Date(date).toMyString() && new Date(x.until).toMyString() >= new Date(date).toMyString()) between = true;
 								});
 								return [yoil && !between];
 							}
@@ -83,7 +83,7 @@ window.addEventListener("load",()=>{
 								let yoil = place.rest.find(x=> x == day) === undefined;
 								let between = false;
 								eventList.forEach(x=>{
-									if(new Date(x.since) <= new Date(date) && new Date(x.until) >= new Date(date)) between = true;
+									if(new Date(x.since).toMyString() <= new Date(date).toMyString() && new Date(x.until).toMyString() >= new Date(date).toMyString()) between = true;
 								});
 								return [yoil && !between];
 							}
@@ -92,12 +92,17 @@ window.addEventListener("load",()=>{
 				});
 	});
 
+	Date.prototype.toMyString = function(){
+		return this.getFullYear()+(this.getMonth()+1+"").padStart(2,"0")+(this.getDate()+"").padStart(2,"0");
+	}
+
 
 	function temp(item){ 
 		let weekArr = ["일", "월", "화", "수", "목", "금", "토"]; 
 		let div = document.createElement("div"); 
 		div.classList.add("card"); 
 		div.classList.add("col-4"); 
+		div.dataset.id = item.id;
 		div.innerHTML = `
 		${item.image.map(x=> `<img src="images/placement/${x}" alt="" class="card-img-top"/>`).join('')}
 		<div class="card-body">
@@ -122,34 +127,55 @@ function reservation_submit(){
 		alert("이미지가 엄슴");
 		return false;
 	}
-	
-	reservation.reservations.forEach(x=>{
+	let placeId = $(reservation_placement).val()*1;
+	let flag = 0;
+	let filtered = reservation.reservations.filter(a=> a.placement == placeId);
+	for(let i = 0; i < filtered.length; i++){
+		let x = filtered[i];
 		let xDate = new Date(x.since);
 		let sinceDate = new Date($(reservation_since).val());
 		let untilDate = new Date($(reservation_until).val());
-
 		if(sinceDate <= xDate && untilDate >= xDate){
-			alert("다른 행사 날짜랑 겹치는데요");
-			return false;
+			// alert("다른 행사 날짜랑 겹치는데요");
+			flag = 1;
+			break;
 		}
-
 		if(sinceDate > untilDate){
-			alert("시작날짜랑 종료날짜랑 말이 안맞는데용? ㅇㅅㅇ");
-			return false;
+			// alert("시작날짜랑 종료날짜랑 말이 안맞는데용? ㅇㅅㅇ");
+			flag = 2;
+			break;
 		}
-	});
-	
+	}
+	if(flag == 1){
+		alert("다른 행사 날짜랑 겹치는데요");
+		return false;
+	}else if(flag == 2){
+		alert("시작날짜랑 종료날짜랑 말이 안맞는데용? ㅇㅅㅇ");
+		return false;
+	}
+	let id = reservation.reservations.length+1;
 	let data = {
-            "id": 1,
-            "placement": $(reservation_placement).val(),
-            "since": $(reservation_since).val(),
-            "until": $(reservation_until).val(),
-            "name": $(reservation_name).val(),
-            "createdAt": $(reservation_since).val(),
-            "user": {
-                "name": $(user_name).val()
-            }
-        };
-
+		"id": id,
+		"placement": placeId,
+		"since": $(reservation_since).val(),
+		"until": $(reservation_until).val(),
+		"name": $(reservation_name).val(),
+		"createdAt": $(reservation_since).val(),
+		"user": {
+			"name": $(user_name).val()
+		}
+	};
+	reservation.reservations.push(data);
+	let datas = {};
+	datas.list = {};
+	datas.list.reservations = reservation.reservations;
+	$.ajax({
+		method:"POST",
+		url:"/reservation/insert",
+		data:datas,
+		success : (e)=>{
+			$(".ui-icon-closethick")[0].click();
+		}
+	})
 	return false;
 }

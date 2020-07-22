@@ -149,14 +149,10 @@ function reserve_submit(e){
             },
             "price": $(res_total).val()
 		}
-		log(data);
-		log(res_time);
 		reservations.transportation_reservation.push(data);
 		let datas = {};
-		// let str = JSON.stringify(reservations.transportation_reservation,null,0);
 		datas.list = {};
 		datas.list.transportation_reservation = reservations.transportation_reservation;
-		log(datas);
 		$.ajax({
 			method:"POST",
 			url:"/trans/resert/insert",
@@ -165,7 +161,7 @@ function reserve_submit(e){
 				$(".ui-icon-closethick")[0].click();
 				// log(e);
 			}
-		})
+		});
 	}
 	return false;
 }
