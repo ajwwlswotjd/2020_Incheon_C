@@ -12,7 +12,11 @@ class MainController extends MasterController {
 
 	public function venue()
 	{
-		$this->render("venue");
+		$sql = "SELECT * FROM `placement`";
+		$data1 = DB::fetch($sql,[]);
+		$sql = "SELECT * FROM `reservation`";
+		$data2 = DB::fetch($sql,[]);
+		$this->render("venue",["data1"=>$data1,"data2"=>$data2]);
 	}
 
 	public function transportation()
@@ -28,7 +32,7 @@ class MainController extends MasterController {
 	{	
 		var_dump($_POST);
 		extract($_POST); 
-		$sql = "UPDATE `trans_res` SET `json`= ? WHERE `idx` = 0";
+		$sql = "UPDATE `trans_res` SET `json`= ? WHERE 1";
 		DB::query($sql,[json_encode($list,JSON_UNESCAPED_UNICODE)]);
 	}
 }

@@ -1,6 +1,8 @@
 <script src="js/venueApp.js"></script>
 <div id="reservation_popup" title="행사장 예약">
 		<form action="#" onsubmit="return reservation_submit(this);">
+			<input type="hidden" id="user_name" value="<?= $_SESSION['user']->name ?>">
+			<input type="hidden" id="reservation_placement">
 			<div class="input-group flex-nowrap">
 				<div class="input-group-prepend">
 					<span class="input-group-text">행사장 이름</span>
@@ -9,7 +11,7 @@
 			</div>
 			<div class="input-group mt-3">
 				<div class="custom-file">
-					<input type="file" id="reservation_file" required accept="image/*">
+					<input type="file" id="reservation_file" required accept="image/*" required>
 				</div>
 				<div class="input-group mt-3">
 					<label for="reservation_since">시작일</label>
@@ -46,3 +48,9 @@
                 </div> -->
             </div>
         </section>
+        <script>
+			let datas = <?= json_encode($data1,JSON_UNESCAPED_UNICODE); ?>
+		</script>
+		<script>
+			let datas2 = <?= json_encode($data2,JSON_UNESCAPED_UNICODE); ?>
+		</script>

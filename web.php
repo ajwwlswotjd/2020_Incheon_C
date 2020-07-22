@@ -5,8 +5,11 @@ use Gondr\Route;
 
 Route::get("/","MainController@index");
 Route::get("user/logout","UserController@logout");
-Route::get("venue","MainController@venue");
-Route::get("transportation","MainController@transportation");
+
+if(__SIGN){
+	Route::get("venue","MainController@venue");
+	Route::get("transportation","MainController@transportation");
+}
 
 Route::post("user/duplicate","UserController@duplicate");
 Route::post("user/join","UserController@join");

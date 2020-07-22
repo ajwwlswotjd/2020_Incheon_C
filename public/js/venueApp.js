@@ -1,15 +1,21 @@
+let placement;
+let reservation;
+
 window.addEventListener("load",()=>{
-	fetch('data/placement.json').then((e)=>{return e.json()}).then(json=>{ 
 
-		$.getJSON("data/reservation.json",(json2)=>{
-			let events = json2;
-			json.places.forEach(place=>{ 
-				let div = temp(place); 
-				let eventList = events.reservations.filter(x=> x.placement === place.id);
-				document.querySelector(".place-list").appendChild(div); 
-				div.addEventListener("click",()=>{
+	placement = JSON.parse(datas.json);
+	reservation = JSON.parse(datas2.json);
+	let json = placement;
+	let json2 = reservation;
 
-					$("#reservation_popup").dialog({width : 300,height : 400});
+	let events = json2;
+	json.places.forEach(place=>{ 
+		let div = temp(place); 
+		let eventList = events.reservations.filter(x=> x.placement === place.id);
+		document.querySelector(".place-list").appendChild(div); 
+		div.addEventListener("click",()=>{
+
+			$("#reservation_popup").dialog({width : 300,height : 400});
 					$(".reservation_date").datepicker("destroy"); // 이걸 안해주면 닫았다가 킬때 요일정보가 업데이튿 되지 않는다.
 					$(".reservation_date").datepicker({
 						dateFormat : 'yy-mm-dd',
@@ -84,9 +90,6 @@ window.addEventListener("load",()=>{
 						});
 					};
 				});
-			});
-		});
-
 	});
 
 
@@ -114,6 +117,39 @@ window.addEventListener("load",()=>{
 
 
 function reservation_submit(){
+
+	if($(reservation_file).val() == ""){
+		alert("이미지가 엄슴");
+		return false;
+	}
+	
+	reservation.reservations.forEach(x=>{
+		let xDate = new Date(x.since);
+		let sinceDate = new Date($(reservation_since).val());
+		let untilDate = new Date($(reservation_until).val());
+
+		if(sinceDate <= xDate && untilDate >= xDate){
+			alert("다른 행사 날짜랑 겹치는데요");
+			return false;
+		}
+
+		if(sinceDate > untilDate){
+			alert("시작날짜랑 종료날짜랑 말이 안맞는데용? ㅇㅅㅇ");
+			return false;
+		}
+	});
+	
+	let data = {
+            "id": 1,
+            "placement": $(reservation_placement).val(),
+            "since": $(reservation_since).val(),
+            "until": $(reservation_until).val(),
+            "name": $(reservation_name).val(),
+            "createdAt": $(reservation_since).val(),
+            "user": {
+                "name": $(user_name).val()
+            }
+        };
 
 	return false;
 }

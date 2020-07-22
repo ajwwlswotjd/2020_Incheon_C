@@ -3,7 +3,7 @@
 		<div class="toast-header">
 			<strong class="mr-auto">토스트</strong>
 			<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-				<span aria-hidden="true" id="toast-close">&times;</span>
+				<span id="toast-close">&times;</span>
 			</button>
 		</div>
 		<div class="toast-body" id="toast-body">
@@ -12,7 +12,11 @@
 	</div>
 	<div id="reserve" title="예약 하기">
 		<form action="#" onsubmit="return reserve_submit(this)">
+			<input type="hidden" id="reserve_left">
 			<input type="hidden" id="res_id">
+			<input type="hidden" id="reserve_price">
+			<input type="hidden" id="res_time">
+			<input type="hidden" id="res_name" value="<?= $_SESSION['user']->name ?>">
 			<div class="input-group mt-2">
 				<input type="text" class="form-control" id="res_transport" readonly value="">
 			</div>
@@ -27,8 +31,6 @@
 					
 				</select>
 			</div>
-			<input type="hidden" id="reserve_left">
-			<input type="hidden" id="reserve_price">
 			<div class="input-group mt-3">
 				<div class="input-group-prepend">
 					<label class="input-group-text" for="kids">아이</label>
@@ -51,8 +53,6 @@
 				<div class="input-group-prepend">
 					<label class="input-group-text" for="res_total">합계</label>
 				</div>
-				<input type="hidden" id="res_name" value="<?= $_SESSION['user']->name ?>">
-				<input type="hidden" id="res_time">
 				<input type="text" class="form-control" id="res_total" value="0" readonly>
 			</div>
 			<button type="submit" class="btn btn-primary mt-2">결제하기</button>

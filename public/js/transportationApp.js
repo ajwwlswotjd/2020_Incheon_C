@@ -52,14 +52,13 @@ window.addEventListener("load",()=>{
 								let date = $("#transportation_date").val();
 
 								let total = 0;
-								log(reservations);
-								let qwe = JSON.parse(reservations);
-								let ft = qwe.filter(x=>{
+								// let qwe = JSON.parse(reservations);
+								let ft = reservations.transportation_reservation.filter(x=>{
 									return new Date(x.date).toMyString() == new Date(date).toMyString() && string == x.time && x.transportation == item.id;
 								}).forEach(z=>{
-									total += z.member.old;
-									total += z.member.adult;
-									total += z.member.kids;
+									total += z.member.old*1;
+									total += z.member.adult*1;
+									total += z.member.kids*1;
 								});
 								let left = item.limit - total;
 								if(left == 0) continue;
@@ -69,6 +68,7 @@ window.addEventListener("load",()=>{
 								option.setAttribute("value",`${left}@${string2}`);
 								if(i == start){
 									option.setAttribute("selected","selected");
+									$("#res_time").val(string2);
 									$("#reserve_left").val(left);
 								}
 								$("#res_select").append(option);
@@ -135,34 +135,35 @@ function reserve_submit(e){
 	$('#toast').fadeIn();
 	if(!over){
 		let trans_id = $("#res_id").val()*1;
-		log(reservations);
-		let qwer = JSON.parse(reservations);
-		let id = ((qwer[qwer.length-1]).id)+1;
+		let id = ((reservations.transportation_reservation[reservations.transportation_reservation.length-1]).id)*1+1;
 		let data = {
 			"id":id,
 			"name": $("#res_name").val(),
 			"transportation": trans_id,
 			"date": $(res_date).val(),
-			"time": $(res_time).val(),
+			"time": $("#res_time").val(),
 			"member": {
-                "old": $(old).val(),
-                "adult": $(adult).val(),
-                "kids":$(kids).val()
+                "old": $(old).val()*1,
+                "adult": $(adult).val()*1,
+                "kids":$(kids).val()*1
             },
             "price": $(res_total).val()
 		}
-		let qwe = JSON.parse(reservations);
-		qwe.push(data);
-		let str = JSON.stringify(qwe,null,0);
-		let asdf = {};
-		asdf.list = str;
-		// asdf.list.transportation_reservation = str;
+		log(data);
+		log(res_time);
+		reservations.transportation_reservation.push(data);
+		let datas = {};
+		// let str = JSON.stringify(reservations.transportation_reservation,null,0);
+		datas.list = {};
+		datas.list.transportation_reservation = reservations.transportation_reservation;
+		log(datas);
 		$.ajax({
 			method:"POST",
 			url:"/trans/resert/insert",
-			data:asdf,
+			data:datas,
 			success : (e)=>{
-				log(e);
+				$(".ui-icon-closethick")[0].click();
+				// log(e);
 			}
 		})
 	}
