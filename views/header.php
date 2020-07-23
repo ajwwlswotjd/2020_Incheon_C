@@ -84,7 +84,7 @@
 					</li>
 					<?php endif; ?>
 					<li class="nav-item">
-						<a class="nav-link" href="admin_venue_manager.html">관리자</a>
+						<a class="nav-link" href="/admin/venue/manager">관리자</a>
 					</li>
 				</ul>
 			</div>

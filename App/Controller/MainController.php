@@ -46,4 +46,40 @@ class MainController extends MasterController {
 		$sql = "UPDATE `reservation` SET `json`= ? WHERE 1";
 		DB::query($sql,[json_encode($list,JSON_UNESCAPED_UNICODE)]);
 	}
+
+	public function admin_transportation()
+	{
+		$this->admin("admin_transportation");
+	}
+
+	public function admin_transportation_manager()
+	{
+		$this->admin("admin_transportation_manager");
+	}
+
+	public function admin_venue()
+	{
+		$sql = "SELECT * FROM `placement` WHERE 1";
+		$data = DB::fetch($sql,[]);
+		$this->admin("admin_venue",["list"=>$data]);
+	}
+
+	public function admin_venue_manager()
+	{
+		$this->admin("admin_venue_manager");
+	}
+
+	public function admin_401()
+	{
+		require __ROOT . "/views/admin_error.php";
+		exit;
+	}
+
+	public function venue_delete()
+	{
+		var_dump($_POST);
+		extract($_POST);
+		$sql = "UPDATE `placement` SET `json`= ? WHERE 1";
+		DB::query($sql,[json_encode($list,JSON_UNESCAPED_UNICODE)]);
+	}
 }

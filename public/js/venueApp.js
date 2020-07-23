@@ -15,6 +15,7 @@ window.addEventListener("load",()=>{
 		let eventList = events.reservations.filter(x=> x.placement == place.id);
 		$(div).on("click",()=>{
 			$(reservation_placement).val($(div).data("id"));
+			$(placement_rest).val(place.rest.join(''));
 			$("#reservation_popup").dialog({width : 300,height : 400});
 			$(".reservation_date").datepicker("destroy"); // 이걸 안해주면 닫았다가 킬때 요일정보가 업데이튿 되지 않는다.
 			$(".reservation_date").datepicker({
@@ -132,9 +133,11 @@ function reservation_submit(){
 	let filtered = reservation.reservations.filter(a=> a.placement == placeId);
 	for(let i = 0; i < filtered.length; i++){
 		let x = filtered[i];
-		let xDate = new Date(x.since);
-		let sinceDate = new Date($(reservation_since).val());
-		let untilDate = new Date($(reservation_until).val());
+		let xDate = new Date(x.since).toMyString();
+		let sinceDate = new Date($(reservation_since).val()).toMyString();
+		let untilDate = new Date($(reservation_until).val()).toMyString();
+		let sinDate = $(reservation_since).val();
+		let untDate = $(reservation_until).val();
 		if(sinceDate <= xDate && untilDate >= xDate){
 			// alert("다른 행사 날짜랑 겹치는데요");
 			flag = 1;
@@ -145,12 +148,22 @@ function reservation_submit(){
 			flag = 2;
 			break;
 		}
+		let listDate = [];
+		getDateRange(sinDate,untDate, listDate);
+		listDate.forEach(d=>{
+			let yoil = new Date(d).getDay();
+			if($(placement_rest).val().indexOf(yoil+"") != -1) flag = 3;
+		});
+
 	}
 	if(flag == 1){
 		alert("다른 행사 날짜랑 겹치는데요");
 		return false;
 	}else if(flag == 2){
 		alert("시작날짜랑 종료날짜랑 말이 안맞는데용? ㅇㅅㅇ");
+		return false;
+	}else if(flag == 3){
+		alert("중간에 휴뮤날짜가 껴잇는뎁숑? ㅋㅋㅋㅋ");
 		return false;
 	}
 	let id = reservation.reservations.length+1;
@@ -174,8 +187,49 @@ function reservation_submit(){
 		url:"/reservation/insert",
 		data:datas,
 		success : (e)=>{
-			$(".ui-icon-closethick")[0].click();
+			location.reload();
 		}
-	})
+	});
 	return false;
 }
+
+function getDateRange(startDate, endDate, listDate)
+
+    {
+
+        var dateMove = new Date(startDate);
+        var strDate = startDate;
+
+        
+
+        if (startDate == endDate)
+
+        {
+
+            var strDate = dateMove.toISOString().slice(0,10);
+
+            listDate.push(strDate);
+
+        }
+
+        else
+
+        {
+
+            while (strDate < endDate)
+
+            {
+
+                var strDate = dateMove.toISOString().slice(0, 10);
+
+                listDate.push(strDate);
+
+                dateMove.setDate(dateMove.getDate() + 1);
+
+            }
+
+        }
+
+        return listDate;
+
+    };

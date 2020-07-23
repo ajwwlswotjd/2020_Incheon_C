@@ -47,6 +47,6 @@ class UserController extends MasterController {
 	public function logout()
 	{
 		unset($_SESSION['user']);
-		echo "<script>history.back();</script>";
+		echo "<script>location.href='/'</script>";
 	}
 }

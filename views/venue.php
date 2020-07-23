@@ -3,6 +3,7 @@
 		<form action="#" onsubmit="return reservation_submit(this);">
 			<input type="hidden" id="user_name" value="<?= $_SESSION['user']->name ?>">
 			<input type="hidden" id="reservation_placement">
+			<input type="hidden" id="placement_rest">
 			<div class="input-group flex-nowrap">
 				<div class="input-group-prepend">
 					<span class="input-group-text">행사장 이름</span>
