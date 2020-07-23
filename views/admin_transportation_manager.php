@@ -1,3 +1,4 @@
+        <script src="/js/admin_transportation_managerApp.js"></script>
         <div class="admin-content">
             <div class="title">교통편 임대 관리</div>
             <table class="list">
@@ -7,7 +8,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                   <!--  <tr>
                         <td>
                             <div class="list__detail-row list__festival-name-row">
                                 <div class="detail__title">교통편 이름</div>
@@ -30,10 +31,16 @@
                                 <div class="detail__content">2019.01.01 / 2018.12.31</div>
                             </div>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
+        <script>
+            let trans = <?= json_encode($trans,JSON_UNESCAPED_UNICODE); ?>
+        </script>
+        <script>
+            let res = <?= json_encode($res,JSON_UNESCAPED_UNICODE); ?>
+        </script>
     </div>
 </body>
 </html>

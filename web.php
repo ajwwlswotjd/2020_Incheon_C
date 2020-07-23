@@ -18,6 +18,8 @@ if(__SIGN){
 
 
 		Route::post("admin/venue/delete","MainController@venue_delete");
+		Route::post("admin/transportation/delete","MainController@transportation_delete");
+		
 	} else {
 		Route::get("admin/transportation","MainController@admin_401");
 		Route::get("admin/transportation/manager","MainController@admin_401");

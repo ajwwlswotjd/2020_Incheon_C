@@ -49,12 +49,20 @@ class MainController extends MasterController {
 
 	public function admin_transportation()
 	{
-		$this->admin("admin_transportation");
+		$sql = "SELECT * FROM `transportation` WHERE 1";
+		$trans = DB::fetch($sql,[]);
+		$sql = "SELECT * FROM `trans_res` WHERE 1";
+		$res = DB::fetch($sql,[]);
+		$this->admin("admin_transportation",["trans"=>$trans,"res"=>$res]);
 	}
 
 	public function admin_transportation_manager()
 	{
-		$this->admin("admin_transportation_manager");
+		$sql = "SELECT * FROM `transportation` WHERE 1";
+		$trans = DB::fetch($sql,[]);
+		$sql = "SELECT * FROM `trans_res` WHERE 1";
+		$res = DB::fetch($sql,[]);
+		$this->admin("admin_transportation_manager",["trans"=>$trans,"res"=>$res]);
 	}
 
 	public function admin_venue()
@@ -66,7 +74,11 @@ class MainController extends MasterController {
 
 	public function admin_venue_manager()
 	{
-		$this->admin("admin_venue_manager");
+		$sql = "SELECT * FROM `placement` WHERE 1";
+		$places = DB::fetch($sql,[]);
+		$sql = "SELECT * FROM `reservation` WHERE 1";
+		$res = DB::fetch($sql,[]);
+		$this->admin("admin_venue_manager",["places"=>$places,"res"=>$res]);
 	}
 
 	public function admin_401()
@@ -81,5 +93,15 @@ class MainController extends MasterController {
 		extract($_POST);
 		$sql = "UPDATE `placement` SET `json`= ? WHERE 1";
 		DB::query($sql,[json_encode($list,JSON_UNESCAPED_UNICODE)]);
+	}
+
+	public function transportation_delete()
+	{
+		var_dump($_POST);
+		extract($_POST);
+		$sql = "UPDATE `transportation` SET `json`= ? WHERE 1";
+		DB::query($sql,[json_encode($list,JSON_UNESCAPED_UNICODE)]);
+		$sql = "UPDATE `trans_res` SET `json`= ? WHERE 1";
+		DB::query($sql,[json_encode($list2,JSON_UNESCAPED_UNICODE)]);
 	}
 }

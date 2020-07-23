@@ -1,3 +1,4 @@
+    <script src="/js/admin_venue_managerApp.js"></script>
     <div class="admin-content">
         <div class="title">행사장 임대 관리</div>
         <table class="list">
@@ -10,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td class="list__thumbnail-container">
                         <img alt="" class="list__thumbnail">
                     </td>
@@ -30,9 +31,15 @@
                     </td>
                     <td class="list__user">예약자 이름 (예약자 아이디)</td>
                     <td class="list__created-at">2019.07.30</td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
+        <script>
+            let places = <?= json_encode($places,JSON_UNESCAPED_UNICODE); ?>
+        </script>
+        <script>
+            let res = <?= json_encode($res,JSON_UNESCAPED_UNICODE); ?>
+        </script>
     </div>
 </div>
 </body>

@@ -30,6 +30,7 @@ window.addEventListener("load",()=>{
 	let result = asd.map(x=> datas.find(z=> z.id == x));
 	result.forEach(x=>{
 		let placement = json2.places.find(v=> v.id == x.placement);
+		if(placement === undefined) return false;
 		let div = temp(x,placement);
 
 		let tooltip = div.querySelector(".card-tooltip");
